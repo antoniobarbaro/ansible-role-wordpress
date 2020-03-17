@@ -1,0 +1,10 @@
+---
+# tasks file for wordpress
+- name: check {{ wordpress_install_dir }} is present
+  file:
+    name: '{{ wordpress_install_dir }}'
+    state: directory
+  register: new_installation
+
+- include: 'installation.yml'
+  when: new_installation.changed

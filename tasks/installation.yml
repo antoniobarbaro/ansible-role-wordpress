@@ -1,0 +1,41 @@
+- name: Download wordpress version {{wordpress_version}} to /tmp
+  unarchive:
+    src: 'http://wordpress.org/wordpress-{{wordpress_version}}.tar.gz'
+    remote_src: true
+    dest: '/tmp'
+
+- name: test if wordpress was unarchived
+  stat: path=/tmp/wordpress
+  register: wordpress_stat
+
+- name: Move wordpress dir
+  shell: "mv /tmp/wordpress/* {{ wordpress_install_dir }}/"
+  args: 
+    creates="{{ wordpress_install_dir }}" 
+  when: wordpress_stat.stat.exists
+
+- name: Fetch random salts for wp-config.php
+  delegate_to: localhost
+  uri:
+    url: https://api.wordpress.org/secret-key/1.1/salt/
+    return_content: yes
+  become: False
+  register: 'wordpress_salt_array'
+
+- name: Set wordpress_salts fact
+  set_fact:
+    wordpress_salts: '{{ wordpress_salt_array.content }}'
+
+- name: Copy wp-config.php file
+  template:
+    src: wp-config.php.j2
+    dest: "{{ wordpress_install_dir }}/wp-config.php"
+
+- name: ensure webroot directory has correct permissions
+  file:
+    path: '{{ wordpress_install_dir }}'
+    owner: '{{ wordpress_owner }}'
+    group: '{{ wordpress_group }}'
+    recurse: yes
+    state: directory
+

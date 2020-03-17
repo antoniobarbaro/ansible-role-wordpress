@@ -1,0 +1,16 @@
+---
+# defaults file for wordpress
+wordpress_version: "4.7.16"
+wordpress_install_dir: "/usr/share/nginx/html/wordpress"
+wordpress_owner: "nginx"
+wordpress_group: "nginx"
+wordpress_db_name: "wptest"
+wordpress_db_user: "wptest"
+wordpress_db_password: "wptest"
+wordpress_db_host: "localhost"
+wordpress_db_charset: "utf8mb4"
+wordpress_db_collate: ""
+wordpress_table_prefix: "wp_"
+wordpress_allow_file_mods: true
+wordpress_automatic_updates: true
+wordpress_debug: false
