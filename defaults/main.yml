@@ -1,6 +1,6 @@
 ---
 # defaults file for wordpress
-wordpress_version: "4.7.16"
+wordpress_version: ""   # example 4.7.16
 wordpress_install_dir: "/usr/share/nginx/html/wordpress"
 wordpress_owner: "nginx"
 wordpress_group: "nginx"
